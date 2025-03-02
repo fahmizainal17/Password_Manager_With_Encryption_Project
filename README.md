@@ -10,6 +10,9 @@ A lightweight, secure password management solution built with Flask and modern c
 
 The Secure Password Manager allows users to safely store and retrieve website credentials using strong encryption. All passwords are encrypted with a master password that only you know, ensuring your sensitive information remains protected.
 
+![Login Screen](/images/login-screen.png)
+*The application starts with a secure login screen, requiring your master password to decrypt stored credentials*
+
 ## 🔍 Features
 
 - 🔒 Strong encryption of all stored passwords using Fernet symmetric encryption
@@ -102,22 +105,42 @@ http://127.0.0.1:5000
 
 ### First-Time Setup
 
-1. When you first launch the application, you'll see the login screen
+1. When you first launch the application, you'll see the login screen:
+   
+   ![Login Screen](https://example.com/path/to/login-screen.png)
+   *The master password screen where you enter your encryption key*
+
 2. Create a master password - this will be used to encrypt all your stored passwords
 3. Remember this master password! If you forget it, you won't be able to recover your stored passwords
 
 ### Managing Passwords
 
-1. After logging in with your master password, you'll see the main interface
+1. After logging in with your master password, you'll see the main interface with two sections:
+   
+   ![Main Interface](https://example.com/path/to/main-interface.png)
+   *The main interface with saved websites list on the left and form to add new passwords on the right*
+
 2. To add a new password:
    - Fill out the website, username, and password fields
    - Click "Save Password"
+
 3. To view a stored password:
    - Click on the website name from the list on the left
-   - The username and password will be displayed
+   - The username and password will be displayed as shown below:
+   
+   ![Password Details](https://example.com/path/to/password-details.png)
+   *Password details view showing the username and password for a selected website*
+
 4. To delete a password:
    - Select the website from the list
    - Click the "Delete" button
+
+### Behind the Scenes: Encryption
+
+Your passwords are stored in an encrypted format in the passwords.json file. Even if someone gains access to this file, they cannot read your passwords without your master password:
+
+![Encrypted Storage](https://example.com/path/to/encrypted-storage.png)
+*Example of how passwords are stored in encrypted format in the JSON file*
 
 ## 🔧 Customization
 
@@ -149,6 +172,6 @@ For a real-world application, consider these security enhancements:
 
 ## 📜 License
 
-Copyright (c) 2025 Fahmi Zainal
+Copyright (c) 2023 Fahmi Zainal
 
 This project is licensed for personal and educational use only. Modification and redistribution require explicit permission from the author.
