@@ -1,6 +1,6 @@
 # 🔐 Secure Password Manager
 
-![Python](https://img.shields.io/badge/python-3.8%2B-blue?style=for-the-badge&logo=python&logoColor=white)
+![Python](https://img.shields.io/badge/python-3.12.8%2B-blue?style=for-the-badge&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-Web%20Framework-green?style=for-the-badge&logo=flask)
 ![Cryptography](https://img.shields.io/badge/Cryptography-Encryption-red?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0xMiAxMnY0SDR2LTRoOHptLTEuNS0ydi0yaC01djJoNXpNMTggMTB2MmgtMS4yVjEwaC0zdi0yaDN2LS41YzAtMS4zODUtMS4zNDMtMi41LTMtMi41cy0zIDEuMTE1LTMgMi41VjEwSDl2LS41QzkgNi41NyAxMC41NyA1IDEzLjc1IDVzNC43NSAxLjU3IDQuNzUgNC41VjEwSDE4eiIvPjwvc3ZnPg==)
 
@@ -28,6 +28,29 @@ The Secure Password Manager allows users to safely store and retrieve website cr
 - **Fernet Encryption**: Symmetric encryption scheme that guarantees authenticity
 - **Secure Session Management**: Flask sessions for user authentication
 - **No Plain-Text Storage**: Sensitive data is never stored unencrypted
+
+## 🔄 Application Workflow
+
+```mermaid
+flowchart TD
+    A[Start Application] --> B{Has Master Password?}
+    B -->|No| C[Create Master Password]
+    B -->|Yes| D[Enter Master Password]
+    C --> E[Generate Encryption Key]
+    D --> E
+    E --> F[Load Main Interface]
+    F --> G{User Action?}
+    G -->|Add Password| H[Enter Website Details]
+    H --> I[Encrypt Password]
+    I --> J[Save to JSON Storage]
+    G -->|View Password| K[Select Website]
+    K --> L[Decrypt Password]
+    L --> M[Display Details]
+    G -->|Delete Password| N[Select Website]
+    N --> O[Remove from Storage]
+    G -->|Logout| P[Clear Session]
+    P --> A
+```
 
 ## 🛠️ Technical Components
 
@@ -141,6 +164,36 @@ Your passwords are stored in an encrypted format in the passwords.json file. Eve
 
 ![Encrypted Storage](/images/encrypted-storage.png)
 *Example of how passwords are stored in encrypted format in the JSON file*
+
+## 🔐 Encryption Process
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant App
+    participant PBKDF2
+    participant Fernet
+    participant Storage
+
+    User->>App: Enter Master Password
+    App->>PBKDF2: Derive Key from Password
+    PBKDF2-->>App: Return Encryption Key
+    App->>Fernet: Initialize Cipher with Key
+    
+    Note over User,Storage: Password Storage Flow
+    User->>App: Enter Website Password
+    App->>Fernet: Encrypt Password
+    Fernet-->>App: Return Encrypted Data
+    App->>Storage: Store Encrypted Password
+    
+    Note over User,Storage: Password Retrieval Flow
+    User->>App: Request Website Password
+    App->>Storage: Retrieve Encrypted Password
+    Storage-->>App: Return Encrypted Data
+    App->>Fernet: Decrypt Password
+    Fernet-->>App: Return Original Password
+    App-->>User: Display Password
+```
 
 ## 🔧 Customization
 
