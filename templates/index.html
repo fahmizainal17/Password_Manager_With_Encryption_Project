@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    {% if login_page %}
+        <h2>Enter Master Password</h2>
+        <form method="post">
+            <div class="form-group">
+                <label for="master_password">Master Password:</label>
+                <input type="password" id="master_password" name="master_password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    {% else %}
+        <div class="clearfix">
+            <div class="password-list">
+                <h3>Saved Websites</h3>
+                <ul>
+                    {% for website in passwords %}
+                        <li><a href="{{ url_for('index', website=website) }}">{{ website }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="password-details">
+                {% if selected_password %}
+                    <h3>Password for {{ selected_website }}</h3>
+                    <p><strong>Username:</strong> {{ selected_password.username }}</p>
+                    <p><strong>Password:</strong> {{ selected_password.password }}</p>
+                    
+                    <form method="post">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="website" value="{{ selected_website }}">
+                        <button type="submit" style="background-color: #f44336;">Delete</button>
+                    </form>
+                {% else %}
+                    <h3>Add New Password</h3>
+                    <form method="post">
+                        <input type="hidden" name="action" value="add">
+                        <div class="form-group">
+                            <label for="website">Website:</label>
+                            <input type="text" id="website" name="website" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <button type="submit">Save Password</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
