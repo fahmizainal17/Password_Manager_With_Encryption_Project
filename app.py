@@ -62,5 +62,17 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
+@app.route('/debug')
+def debug():
+    if 'logged_in' not in session:
+        return redirect(url_for('index'))
+        
+    try:
+        with open('passwords.json', 'r') as f:
+            raw_data = json.load(f)
+            return render_template('debug.html', raw_data=raw_data)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return "No password data found."
+
 if __name__ == '__main__':
     app.run(debug=True)
